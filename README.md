@@ -52,12 +52,10 @@ For a detailed description of the algorithm, please reference [this link](https:
 
 ## Issues and Future Work
 
-In this section, please list all know issues, limitations, and possible areas for future improvement. For example:
+Below, we list some possible areas for improvement:
 
-* High false negative rate for document classier. 
-* Over 10 min run time for one page text.
-* Replace linear text search with a more efficient text indexing library (such as whoosh)
-* Include an extra label of "no class" if all confidence scores low. 
+* Difficulty dealing with expository documents that follow less uniform content planning (e.g. Wikipedia)
+* Slightly long inference time for a single document ( ~ 30 sec)
 
 
 ## References 
