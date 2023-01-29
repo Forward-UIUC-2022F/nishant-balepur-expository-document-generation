@@ -2,9 +2,7 @@
 
 ## Overview
 
-Give a brief overview of your module here. For example: this module is responsible for classifying pieces of text using a neural network on top of BERT. 
-
-Note: if this is a second or latter iteration of a module, you may reuse the old iteration's README as a starting point (you should still update it). 
+This code is 
 
 ## Setup
 
