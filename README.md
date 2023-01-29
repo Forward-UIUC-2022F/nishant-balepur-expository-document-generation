@@ -4,7 +4,7 @@
 
 This code contains the Imitate, Retrieve, Paraphrase (IRP) framework for expository document generation. The framework leverages a set of topic-related factual sentences and a user-specified prefix in order to generate an expository document.
 
-[IRP](model.png)
+![IRP](model.png)
 
 ## Setup
 
@@ -46,17 +46,8 @@ The following parameters need to be specified in the first few lines of the file
 
 
 ## Algorithmic Design 
-This section should contain a detailed description of all different components and models that you will be using to achieve your task as well as a diagram. Here is a very basic example of what you should include:
 
-We generate vector representations for each document using BERT, we then train a simple, single-layer fully connected neural network using the documents and labels from the training set.
-
-First, we select a set of labeled text documents `d_1, d_2, …, d_N` from the arxiv dataset available on Kaggle. The documents are randomly partitioned into two sets for training and testing. We use the BERT language model's output as the input to the neural network. Only the weights of the neural network are modified during training. 
-
-After training, we run the trained model to classify the test documents into one of the classes in C. Below is a picture of the architecture of the module. The diagram below was constructed using draw.io 
-
-
-![design architecture](https://github.com/Forward-UIUC-2021F/guidelines/blob/main/template_diagrams/sample-design.png)
-
+For a detailed description of the algorithm, please reference [this link](https://www.overleaf.com/read/pdzrwwvvcpms).
 
 
 ## Issues and Future Work
@@ -70,10 +61,5 @@ In this section, please list all know issues, limitations, and possible areas fo
 
 
 ## References 
-include links related to datasets and papers describing any of the methodologies models you used. E.g. 
 
-* Dataset: https://www.kaggle.com/Cornell-University/arxiv 
-* BERT paper: Jacob Devlin, Ming-Wei Chang, Kenton Lee, & Kristina Toutanova. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.
-Include a brief summary of your module here. For example: this module is responsible for classifying pieces of text using a neural network on top of BERT. 
-
-Note: if this is a second or latter iteration of a module, you may reuse the old iteration's README as a starting point (you should still update it). 
+All relevant references are linked in the [paper](https://www.overleaf.com/read/pdzrwwvvcpms).
