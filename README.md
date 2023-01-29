@@ -2,113 +2,47 @@
 
 ## Overview
 
-This code is 
+This code contains the Imitate, Retrieve, Paraphrase (IRP) framework for expository document generation. The framework leverages a set of topic-related factual sentences and a user-specified prefix in order to generate an expository document.
+
+[IRP](model.png)
 
 ## Setup
 
-List the steps needed to install your module's dependencies: 
-
-1. Include what version of Python (e.g. 3.8.12) and what version of pip (e.g. 21.3.1) you used when running your module. If you do not specify these, other users may run into several problems when trying to install dependencies!
-
-2. Include a requirements.txt containing all of the python dependencies needed at your project's root (see this [link](https://stackoverflow.com/questions/31684375/automatically-create-requirements-txt) for instructions on how to create a requirements.txt). If you used a python virtual environment, use `pip freeze -l > requirements.txt` to generate your requirements.txt file. Make sure to include the below line somewhere in this section to tell users how to use your requirements.txt. 
+Python 3.8.12 and pip 21.3.1 were used when running this module. A list of requirements can be found in `requirements.txt`, which can be installed through the following command:
 ```
 pip install -r requirements.txt 
 ```
 
-3. Additionally, list any other setup required to run your module such as installing MySQL or downloading data files that you module relies on. 
+All models/datasets needed to test IRP can be found on huggingface at [this link](https://huggingface.co/nbalepur).
 
-4. Include instructions on how to run any tests you have written to verify your module is working properly. 
-
-It is very important to also include an overall breakdown of your repo's file structure. Let people know what is in each directory and where to look if they need something specific. This will also let users know how your repo needs to structured so that your module can work properly
-
-```
-firstname-lastname-repo-name/
-    - requirements.txt
-    - data/ 
-        -- eval_articles.csv
-        -- train_articles.csv
-        -- Keywords_Springer.csv
-    - trained_models/
-        -- best.model
-    - src/
-        -- create_train_data/
-            --- query_google.py 
-            --- extract_fInclude a brief summary of your module here. For example: this module is responsible for classifying pieces of text using a neural network on top of BERT. 
-
-Note: if this is a second or latter iteration of a module, you may reuse the old iteration's README as a starting point (you should still update it). 
-
-## Setup
-
-List the steps needed to install your module's dependencies: 
-
-1. Include what version of Python (e.g. 3.8.12) and what version of pip (e.g. 21.3.1) you used when running your module. If you do not specify these, other users may run into several problems when trying to install dependencies!
-
-2. Include a requirements.txt containing all of the python dependencies needed at your project's root (see this [link](https://stackoverflow.com/questions/31684375/automatically-create-requirements-txt) for instructions on how to create a requirements.txt). If you used a python virtual environment, use `pip freeze -l > requirements.txt` to generate your requirements.txt file. Make sure to include the below line somewhere in this section to tell users how to use your requirements.txt. 
-```
-pip install -r requirements.txt 
-```
-
-3. Additionally, list any other setup required to run your module such as installing MySQL or downloading data files that you module relies on. 
-
-4. Include instructions on how to run any tests you have written to verify your module is working properly. 
-
-It is very important to also include an overall breakdown of your repo's file structure. Let people know what is in each directory and where to look if they need something specific. This will also let users know how your repo needs to structured so that your module can work properly
-
-```
-firstname-lastname-repo-name/
-    - requirements.txt
-    - data/ 
-        -- eval_articles.csv
-        -- train_articles.csv
-        -- Keywords_Springer.csv
-    - trained_models/
-        -- best.model
-    - src/
-        -- create_train_data/
-            --- query_google.py 
-            --- extract_from_url.py
-        -- train.py
-        -- classify_articles/
-            --- main.py
-            --- utils.py
-   - tests/
-       -- data_preprocess_test.py
-       -- eval_pretrained_model_test.py
-```
-
-Include text description of all the important files / componenets in your repo. 
-* `src/create_train_data/`: fetches and pre-processes articles
-* `src/train.py`: trains model from pre-processed data
-* `src/classify_articles/`: runs trained model on input data
-* `data/eval_artcles.csv`: articles to be classified (each row should include an 'id', and 'title')
-
-### Important 
-Go to [our shared google Drive space](https://drive.google.com/drive/folders/1rxPAdGTVcl-Xo6uuFovdKcCw5_FEaXIC?usp=sharing) and create a folder with the format `FirstnameLastName-Projectname` (e.g. `AshutoshUkey-KeywordTrie`). In here, make sure to include a zipped copy of any data files related to your module (including `.sql` dumps of necessary databases) as well as a backup zipped copy of your Github repo (i.e. all the files you upload to Github).
-
+The most important files in this repository are as follows:
+* `src/IRP.ipynb/`: demo code (discussed in demo video below) for demonstrating how each of the components work in the IRP framework
+* `src/IRP.py/`: full IRP model for expository document generation
 
 
 ## Functional Design (Usage)
-Describe all functions / classes that will be available to users of your module. This section should be oriented towards users who want to _apply_ your module! This means that you should **not** include internal functions that won't be useful to the user in this section. You can think of this section as a documentation for the functions of your package. Be sure to also include a short description of what task each function is responsible for if it is not apparent. You only need to provide the outline of what your function will input and output. You do not need to write the pseudo code of the body of the functions. 
 
-* Takes as input a list of strings, each representing a document and outputs confidence scores for each possible class / field in a dictionary
-```python
-    def classify_docs(docs: list[str]):
-        ... 
-        return [
-            { 'cs': cs_score, 'math': math_score, ..., 'chemistry': chemistry_score },
-            ...
-        ]
+After navigating to `IRP.py`, simply run the code by running the command:
+
+```
+python IRP.py
 ```
 
-* Outputs the weights as a numpy array of shape `(num_classes, num_features)` of the trained neural network 
-```python
-    def get_nn_weights():
-        ...
-        return W
-```
+The following parameters need to be specified in the first few lines of the file:
+
+* `device`: run the model on `cuda` or `cpu`
+* `dataset_name`: where the input/output pairs for expository document generation come from on huggingface (`nbalepur/college_desc_refined2`, `nbalepur/medline_medicine_desc_refined`, `nbalepur/cs_history_desc_refined2`)  
+* `input_column_name`: whether to use the "leaked" or "non-leaked" version of the dataset (`web_sentences_with_desc` or `web_sentences_no_desc`)
+* `output_dir`: where to save the results to
+* `imitator_model_name`: the name of the imitator model on huggingface (`nbalepur/gpt2_college_desc`, `nbalepur/gpt2_medicine_bio`, `nbalepur/gpt2_cs_history_lg`)
+* `paraphrase_model_name`: the name of the paraphraser model on huggingface (see models from `nbalepur`)
+* `retriver_model_name`: the name of the retriever model on huggingface (see models from `nbalepur`)
+* `k`: number of facts for the retriever to return 
+* `get_prefix(topic)`: initial prefix for the expository document. returns a string, which can optionally use the topic of the document
 
 ## Demo video
-Make sure to include a video showing your module in action and how to use it in this section. Github Pages doesn't support this so I am unable to do this here. However, this can be done in your README.md files of your own repo. Follow instructions [here](https://stackoverflow.com/questions/4279611/how-to-embed-a-video-into-github-readme-md) of the accepted answer 
+
+<a href="https://drive.google.com/file/d/1EzU7N72KTsYrJgs5XnaHGda0CfZX8Osj/view?usp=sharing" title="Link Title">Video</a>
 
 
 ## Algorithmic Design 
